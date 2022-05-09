@@ -52,7 +52,7 @@
     }
 
     .key {
-        --key-line-height: 3.5;
+        --key-line-height: 4;
         --background: var(--surface-secondary);
         --color: #3a3a3c;
 
@@ -69,6 +69,7 @@
         background: var(--background);
         border: 0;
         margin: 0;
+        padding: 0;
         display: grid;
         place-items: center;
         touch-action: manipulation;

@@ -1,9 +1,10 @@
 <script>
-    // import { createEventDispatcher } from 'svelte';
+    import { createEventDispatcher } from 'svelte';
 
-    // const dispatch = createEventDispatcher();
+    const dispatch = createEventDispatcher();
 
     export let bees = [];
+    export let queenIndex = 0;
     export let cursor = 0;
 
     $: grid = [
@@ -11,22 +12,26 @@
         [2, 3, 4],
         [5, 6],
     ];
-    // $: dispatch('cursorchange', { cursor });
+
+    function clickCell(cell) {
+        cursor = cell;
+        dispatch('click', {cursor});
+    }
 </script>
 
 <div class="comb">
     {#each grid as row}
         <div class="comb__row">
             {#each row as cell}
-
-            <div 
+            <div
                 class="comb__cell" 
-                class:queen={cell === 3}
+                class:queen={cell === queenIndex}
                 class:focus={cursor === cell}
-                data-idx={cell}
-                on:click={()=>{cursor = cell}}
+                tabindex="0"
+                on:click={()=>clickCell(cell)}
+                on:focus={()=>cursor = cell}
             >
-                {bees[cell]}
+                <span class="comb__cell-inner">{bees[cell]}</span>
             </div>
             {/each}
         </div>
@@ -34,20 +39,23 @@
 </div>
 
 <style scoped lang="scss">
-    @use './variables';
-
     .comb {
-        --cell-size: 5rem;
-        --cell-gap: 0.5rem;
+        --cell-size: 4rem;
+        --cell-gap: 0.4rem;
 
         display: flex;
         flex-direction: column;
         align-items: center;
+        transform: rotate(30deg);
 
         &__row {
             display: flex;
             gap: var(--cell-gap);
             margin-bottom: calc(var(--cell-gap) * -2);
+
+            &:last-of-type {
+                margin-bottom: 0;
+            }
         }
 
         &__cell {
@@ -66,8 +74,15 @@
             cursor: pointer;
             touch-action: manipulation;
             text-transform: capitalize;
+            transition: transform 0.15s ease-out;
+            will-change: transform;
 
-            &.focus {
+            &:active {
+                transform: scale(.9);
+            }
+
+            &.focus, &:focus {
+                outline: 0;
                 filter: brightness(.9);
             }
 
@@ -94,6 +109,10 @@
             &.queen {
                 --fill: var(--yellow);
             }
+        }
+
+        &__cell-inner {
+            transform: rotate(-30deg);
         }
     }
 </style>

@@ -1,7 +1,25 @@
-:global(body) {
-    --background: #fff;
-    --surface: #fff;
-    --surface-secondary: #e6e6e6;
-    --yellow: #f7da21;
-    --text-primary: #000;
+@use "sass:color";
+
+$background: #fff;
+$surface: #fff;
+$surface-secondary: #e6e6e6;
+$surface-invert: #3a3a3c;
+$yellow: #f7da21;
+$text-primary: #000;
+$text-invert-primary: #fff;
+
+:global(:root) {
+    --background: #{$background};
+    --surface: #{$surface};
+    --surface-secondary: #{$surface-secondary};
+    --surface-invert: #{$surface-invert};
+    --yellow: #{$yellow};
+    --text-primary: #{$text-primary};
+    --text-invert-primary: #{$text-invert-primary};
+}
+
+@mixin blurredSurface($color:$background, $alpha: .8, $radius: 10px) {
+    -webkit-backdrop-filter: blur($radius);
+    backdrop-filter: blur($radius);
+    background-color: rgba($color, $alpha);
 }

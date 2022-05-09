@@ -1,0 +1,25 @@
+@use './variables';
+
+$button-background: variables.$surface !default;
+$text-color: variables.$text-primary !default;
+
+.button {
+    @include variables.blurredSurface($color: $button-background);
+
+    color: $text-color;
+    border: 0;
+    touch-action: manipulation;
+
+    &:active {
+        background: darken($button-background, 10%);
+    }
+
+    &--icon {
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        width: 3em;
+        height: 3em;
+        padding: 0;
+    }
+}
