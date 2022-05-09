@@ -1,16 +1,15 @@
 <script>
     import { tick } from 'svelte';
     import { slide } from 'svelte/transition';
-
     import Comb from './Comb.svelte';
     import Keyboard from './Keyboard.svelte';
     import WordList from './WordList.svelte';
     import Mask from './Mask.svelte';
     import Modal from './Modal.svelte';
 
-    // let bees = ['a','b','i','r','d','l','z']; // bees[3] is the queen bee
+    // let bees = ['a','b','i','r','d','l','z']; // for testing
     let bees = ['','','','','','','']; 
-    let queenIndex = 3; // bees[3] is the queen bee
+    let queenIndex = 6;
     $: queen = bees[queenIndex] || '';
 
     let cursor = 0;
@@ -61,8 +60,11 @@
                 showError = true;
             }
         } else if (keyVal.match(/^[a-z]$/i)) {
-            bees[cursor] = keyVal;
-            cursor = cursor < 6 ? cursor + 1 : 0;
+            // haven't entered yet
+            if (bees.indexOf(keyVal) < 0) {
+                bees[cursor] = keyVal;
+                cursor = cursor < 6 ? cursor + 1 : 0;
+            }
         }
     }
 
@@ -87,8 +89,6 @@
         showModal = true;
     }
 
-    // $: showMask = showModal;
-
     let scrollY = 0;
 
     function onScroll(e) {
@@ -110,6 +110,9 @@
     </header>
 
     <main class="main">
+        <div class="main__tip">
+            Fill the letters into the hive
+        </div>
         <div class="main__comb" class:error={showError} style:transform={combTransform}>
             <Comb bind:cursor {bees} {queenIndex} on:click={()=> showKeyboard = true} />
         </div>
@@ -199,6 +202,11 @@
         margin: auto;
         padding-top: 2em;
         gap: 2em;
+
+        &__tip {
+            text-align: center;
+            opacity: 0.5;
+        }
 
         &__comb {
             &.error {

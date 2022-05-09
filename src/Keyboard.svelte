@@ -21,8 +21,8 @@
                     class="key"
                     class:action={!key.match(/^[a-z]$/i)} 
                     class:drone={bees.indexOf(key) > -1}
-                    class:queen={queen == key}
-                    on:click={()=>{dispatch('input', { key })}}
+                    class:queen={queen === key}
+                    on:click={()=>dispatch('input', { key })}
                 >
                     {#if key == 'backspace'}
                     <span class="material-symbols-outlined">backspace</span>
@@ -74,8 +74,9 @@
         place-items: center;
         touch-action: manipulation;
 
-        &:active {
+        &:active, &:focus {
             filter: brightness(.95);
+            outline: 0;
         }
 
         &.action {
