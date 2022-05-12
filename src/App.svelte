@@ -81,10 +81,12 @@
     async function onClickWord(e) {
         const { index } = e.detail;
 
+        const {word, tags, defs} = candidates[index];
+
         await tick();
-        dict.word = candidates[index].word;
-        dict.pron = candidates[index].tags[1]?.replace('ipa_pron:', '');
-        dict.defs = candidates[index].defs;
+        dict.word = word;
+        dict.pron = tags[tags.findIndex(value => value.indexOf('ipa_pron') >= 0)].replace('ipa_pron:', '');
+        dict.defs = defs;
 
         showModal = true;
     }
