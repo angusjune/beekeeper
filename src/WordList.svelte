@@ -1,6 +1,6 @@
 <script>
     import { createEventDispatcher } from 'svelte';
-    import { scale } from 'svelte/transition';
+    import { scale, fade } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
 
     const dispatch = createEventDispatcher();
@@ -11,14 +11,17 @@
 </script>
 
 <section class="word-list" role="list">
+    {#if loading}
+    <div class="loader word-list__loader" transition:scale></div>
+
+    {:else}
+
     {#each words as word, index}
-    <div class="word" role="listitem" tabindex="0" on:click={()=>dispatch('click', {index})}>
+    <div class="word" role="listitem" tabindex="0" on:click={()=>dispatch('click', {index})} transition:fade={{duration: 100, delay: index * 10}}>
         {word.word}
     </div>
     {/each}
 
-    {#if loading}
-    <div class="loader word-list__loader" transition:scale></div>
     {/if}
 
     {#if words.length < 1 && showNoSearchResult}
