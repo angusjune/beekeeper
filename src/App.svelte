@@ -48,8 +48,13 @@
         showError = false;
 
         if (keyVal === 'backspace') {
-            bees[cursor] = '';
-            cursor = cursor > 0 ? cursor - 1 : 6;
+            const nextCursor = cursor > 0 ? cursor - 1 : 6;
+            if (bees[cursor]) {
+                bees[cursor] = '';
+            } else {
+                bees[nextCursor] = '';
+                cursor = nextCursor;
+            }
         } else if (keyVal === 'enter') {
             if (bees.indexOf('') < 0) {
                 // all cells are filled
