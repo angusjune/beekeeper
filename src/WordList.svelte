@@ -39,6 +39,7 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
+        align-items: flex-start;
         gap: 0.4em;
 
         &__empty {
